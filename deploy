@@ -54,8 +54,5 @@ cmd "git pull"
 
 cmd 'refresh_mongodb.sh'
 
-# Make the deploy executable
-cmd 'chmod +x deploy'
-
 # Run tests
 cmd 'npm run test'
