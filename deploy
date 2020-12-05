@@ -1,8 +1,7 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-# Deploys app from version control, runs tests and if tests pass, runs new version of the
- app. If tests fail or any other error, sends email.
+# Deploys app from version control, runs tests and if tests pass, runs new version of the app. If tests fail or any other error, sends email.
 
 # Write some HTTP headers to make Nginx happy
 echo -e "Content-Type: text/html\n"
@@ -36,8 +35,7 @@ cmd() {
                 log "The previous command returned non-zero exit code. Aborting."
 
                 # Send email to me
-                mail -s 'message subject' -aFrom:mairit@jaanamairitbank.online mairit.saa
-l@khk.ee <<< $OUTPUT
+                mail -s 'message subject' -aFrom:mairit@jaanamairitbank.online mairit.saal@khk.ee <<< $OUTPUT
 
                 # Stop the script
                 exit $?
@@ -53,6 +51,8 @@ cmd "git reset --hard"
 
 # Pull the new commits from Github
 cmd "git pull"
+
+cmd 'refresh_mongodb.sh'
 
 # Make the deploy executable
 cmd 'chmod +x deploy'
