@@ -51,8 +51,6 @@ cmd "git reset --hard"
 
 # Pull the new commits from Github
 cmd "git pull"
-# Make the deploy executable
-cmd 'chmod +x deploy'
 
 cmd 'refresh_mongodb.sh'
 
