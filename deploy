@@ -57,5 +57,32 @@ cmd 'refresh_mongodb.sh'
 # Make the deploy executable
 cmd 'chmod +x deploy'
 
+# Go to app folder
+cd techworld-js-docker-demo-app/app
+
+# Install dependencies
+cmd 'npm i'
+
 # Run tests
 cmd 'npm run test'
+
+# Go back to project root folder
+cd ..
+
+# Remove old version
+# shellcheck disable=SC2046
+if [ $(docker container inspect -f '{{.State.Running}}' 1307ed8a9812 == true) ];
+ then
+  cmd "docker stop my-app" # Stop previous container
+  cmd "docker rmi my-app" # Remove the image
+fi
+
+# Build image
+TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
+cmd 'docker build -t my-app .'
+cmd "docker tag my-app:1.0 290390812374.dkr.ecr.us-east-2.amazonaws.com/my-ap
+p:$TIMESTAMP"
+cmd "docker push 290390812374.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+
+# Run the image
+cmd "docker run -d --name my-app"
