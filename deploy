@@ -52,7 +52,7 @@ cmd "git reset --hard"
 cmd "git pull"
 
 # Restores database from dump
-cmd 'refresh_mongodb.sh'
+#cmd 'refresh_mongodb.sh'
 
 # Make the deploy executable
 cmd 'chmod +x deploy'
