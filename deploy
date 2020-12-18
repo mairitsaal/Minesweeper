@@ -66,8 +66,6 @@ cmd 'npm i'
 # Run tests
 cmd 'npm run test'
 
-cmd "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 220189100386.dkr.ecr.us-east-2.amazonaws.com"
-
 # Go back to project root folder
 cd ..
 
@@ -77,6 +75,8 @@ cmd 'docker build -t my-app .'
 
 # Tag
 cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+
+cmd "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 220189100386.dkr.ecr.us-east-2.amazonaws.com"
 
 # Push the docker to AWS
 cmd "docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
