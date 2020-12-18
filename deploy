@@ -66,23 +66,26 @@ cmd 'npm i'
 # Run tests
 cmd 'npm run test'
 
+cmd "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 220189100386.dkr.ecr.us-east-2.amazonaws.com"
+
 # Go back to project root folder
 cd ..
-
-# Remove old version
-# shellcheck disable=SC2046
-if [ $(docker container inspect -f '{{.State.Running}}' 1307ed8a9812 == true) ];
- then
-  cmd "docker stop my-app" # Stop previous container
-  cmd "docker rmi my-app" # Remove the image
-fi
 
 # Build image
 TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 cmd 'docker build -t my-app .'
-cmd "docker tag my-app:latest 290390812374.dkr.ecr.us-east-2.amazonaws.com/my-ap
-p:$TIMESTAMP"
-cmd "docker push 290390812374.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
 
-# Run the image
-cmd "docker run -d --name my-app:$TIMESTAMP"
+# Tag
+cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+
+# Push the docker to AWS
+cmd "docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+
+if [ ! "$(docker ps -q -f name=my-app)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=my-app)" ]; then
+        # cleanup
+        cmd "docker rm 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+    fi
+    # Run container
+    cmd "docker run 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+fi
