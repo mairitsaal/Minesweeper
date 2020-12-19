@@ -55,7 +55,7 @@ cmd "git pull"
 cmd 'refresh_mongodb.sh'
 
 # Make the deploy executable
-cmd 'chmod +x deploy'
+# cmd 'chmod +x deploy'
 
 # Go to app folder
 cd techworld-js-docker-demo-app/app
