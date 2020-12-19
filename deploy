@@ -72,7 +72,7 @@ cmd 'npm run test'
 cd ..
 
 # Build image
-TIMESTAMP="date +%Y-%m-%d_%H-%M-%S"
+TIMESTAMP='date +%Y-%m-%d_%H-%M-%S'
 cmd "docker build -t my-app ."
 
 # Tag
