@@ -79,11 +79,4 @@ cmd 'docker build -t my-app .'
 TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 cmd "docker build -t my-app ."
 
-# Tag
-cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
 
-# Push the docker to aws
-cmd "docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
-
-# Run container
-cmd "docker run 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
