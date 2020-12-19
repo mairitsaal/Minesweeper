@@ -49,15 +49,15 @@ log "Updating the project"
 cmd 'git reset --hard'
 
 # Pull the new commits from Github
-cmd 'git pull'
+cmd "git pull"
 
 # Restores database from dump
 cmd 'refresh_mongodb.sh'
-
+cmd 'chown -R www-data:www-data deploy'
 # Make the deploy executable
 cmd 'chmod +x deploy'
 
-cmd 'chown -R www-data:www-data deploy'
+
 
 # Go to app folder
 cd techworld-js-docker-demo-app/app
