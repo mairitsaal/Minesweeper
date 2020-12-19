@@ -49,7 +49,7 @@ log "Updating the project"
 cmd 'git reset --hard'
 
 # Pull the new commits from Github
-cmd "git pull"
+cmd 'git pull'
 
 # Restores database from dump
 cmd 'refresh_mongodb.sh'
@@ -57,30 +57,35 @@ cmd 'refresh_mongodb.sh'
 # Make the deploy executable
 cmd 'chmod +x deploy'
 
-# Go to the app folder
-cd app
+# Go to app folder
+cd techworld-js-docker-demo-app/app
 
 # Install dependencies
-cmd 'npm install'
+cmd 'npm i'
 
 # Run tests
 cmd 'npm run test'
 
-cmd "aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 220189100386.dkr.ecr.us-east-2.amazonaws.com"
 
-# Build an image
+
+# Go back to project root folder
 cd ..
 
-TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
+# Build image
+TIMESTAMP='date +%Y-%m-%d_%H-%M-%S'
 cmd 'docker build -t my-app .'
-cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
-cmd "docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
 
-if [ ! "$(docker ps -q -f name=my-app)" ]; then
-    if [ "$(docker ps -aq -f status=exited -f name=my-app)" ]; then
+# Tag
+cmd 'docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP'
+
+# Push the docker to AWS
+cmd 'docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP'
+
+if [ ! '$(docker ps -q -f name=my-app)' ]; then
+    if [ '$(docker ps -aq -f status=exited -f name=my-app)' ]; then
         # cleanup
-        cmd "docker rm 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+        cmd 'docker rm 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP'
     fi
-    # run your container
-    cmd "docker run 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
+    # Run container
+    cmd 'docker run 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP'
 fi
