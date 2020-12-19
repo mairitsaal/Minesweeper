@@ -5,8 +5,6 @@ let MongoClient = require('mongodb').MongoClient;
 let bodyParser = require('body-parser');
 let app = express();
 
-// Changes
-
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -23,15 +21,16 @@ app.get('/profile-picture', function (req, res) {
 });
 
 // use when starting application locally
-let mongoUrlLocal = "mongodb://admin:password@localhost:27017/?authSource=admin";
+let mongoUrlLocal = "mongodb://admin:password@localhost:27017";
 
-// use when starting application as Dockerfile container
+// use when starting application as docker container
 let mongoUrlDocker = "mongodb://admin:password@mongodb";
 
 app.post('/update-profile', function (req, res) {
     let userObj = req.body;
 
     MongoClient.connect(mongoUrlLocal, function (err, client) {
+
         if (err) throw err;
 
         let db = client.db('my-db');
