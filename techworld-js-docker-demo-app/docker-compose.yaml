@@ -4,11 +4,11 @@ services:
   my-app:
   image: 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:1.0
   ports:
-   - 3009:3000
+   - 3000:3000
   mongodb:
     image: mongo
     ports:
-      - 27019:27017
+      - 27017:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
