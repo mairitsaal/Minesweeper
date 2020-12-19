@@ -83,7 +83,6 @@ cmd "docker build -t my-app ."
 cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
 
 
-
 # Push the docker to AWS
 cmd "docker push 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
 
