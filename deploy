@@ -61,7 +61,7 @@ cmd 'chmod +x deploy'
 cd app
 
 # Install dependencies
-cmd 'npm i'
+cmd 'npm install'
 
 # Run tests
 cmd 'npm run test'
@@ -70,6 +70,7 @@ cmd "aws ecr get-login-password --region us-east-2 | docker login --username AWS
 
 # Build an image
 cd ..
+
 TIMESTAMP=`date +%Y-%m-%d_%H-%M-%S`
 cmd 'docker build -t my-app .'
 cmd "docker tag my-app:latest 220189100386.dkr.ecr.us-east-2.amazonaws.com/my-app:$TIMESTAMP"
